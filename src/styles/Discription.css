@@ -1,0 +1,16 @@
+/* .description-image{
+  height: 500px;
+  width: 500px;
+  margin: auto;
+} */
+.box{
+  margin: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+}
+.action{
+  padding: 15px;
+  margin: 15px;
+}

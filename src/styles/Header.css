@@ -1,0 +1,10 @@
+.heading {
+  display: flex;
+  background-color: brown;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.Cart-icon{
+  margin: 10px;
+    padding: 10px;
+}
