@@ -13,6 +13,13 @@ function App() {
   const [cart, setCart] = useState([]);
   const [Id, setId] = useState(0);
 
+  const [orderCart, setorderCart] = useState([]);
+  // useEffect(() => {
+  //   setorderCart(cart);
+  // }, [cart]);
+
+  console.log("ordercart", orderCart);
+
   const addCart = (product) => {
     const cartObject = { ...product, quantity: 1 };
     const newCart = [...cart, cartObject];
@@ -53,7 +60,10 @@ function App() {
     setCart(newCart);
   };
 
-  const OpenOrderPlaced = () => {};
+  const OpenOrderPlaced = () => {
+    setorderCart(cart);
+    setCart([]);
+  };
 
   const sendIdToDescription = (Id) => {
     setId(Id);
@@ -62,7 +72,7 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header carts={cart} />
       <Routes>
         <Route
           path="/"
@@ -91,7 +101,7 @@ function App() {
           path="/Cart"
           element={<Cart carts={cart} OpenOrderPlaced={OpenOrderPlaced} />}
         />
-        <Route path="/order" element={<Order carts={cart} />} />
+        <Route path="/order" element={<Order carts={orderCart} />} />
       </Routes>
     </>
   );

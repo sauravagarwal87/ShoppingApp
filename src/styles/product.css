@@ -1,5 +1,12 @@
 .image{
-    height: 140px;
-    width: 250px;
-    margin: auto;
+    height: 200px;
+    object-fit:contain ;
+}
+.product-display{
+    display: flex;
+    flex-wrap: wrap;
+}
+.card-css{
+    padding: 16px;
+    margin: 16px;
 }

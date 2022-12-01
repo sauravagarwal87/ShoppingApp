@@ -7,10 +7,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import "../styles/cart.css";
 
 const Cart = ({ carts, OpenOrderPlaced }) => {
-  console.log(carts);
+  console.log("CartPage", carts);
+  // if (carts.length === 0) return;
   const TAX_RATE = 0.07;
 
   function ccyFormat(num) {
@@ -41,68 +45,117 @@ const Cart = ({ carts, OpenOrderPlaced }) => {
   const invoiceTaxes = TAX_RATE * invoiceSubtotal;
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="spanning table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center" colSpan={3}>
-              Details
-            </TableCell>
-            <TableCell align="right">Price</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Desc</TableCell>
-            <TableCell align="right">Qty.</TableCell>
-            <TableCell align="right">Unit</TableCell>
-            <TableCell align="right">Sum</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {carts.map((cart) => {
-            //logic
-            return (
-              <TableRow key={cart.title}>
-                <TableCell>{cart.title}</TableCell>
-                <TableCell align="right">{cart.quantity}</TableCell>
-                <TableCell align="right">{cart.price}</TableCell>
-                <TableCell align="right">
-                  {ccyFormat(priceRow(cart.quantity, cart.price))}
-                </TableCell>
-              </TableRow>
-            );
-          })}
+  console.log("hii", carts.length);
 
-          <TableRow>
-            <TableCell rowSpan={3} />
-            <TableCell colSpan={2}>Subtotal</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Tax</TableCell>
-            <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
-              0
-            )} %`}</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={2}>Total</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <Link to="/order">
-              <Button
-              // onClick={() => {
-              //   OpenOrderPlaced();
-              // }}
-              >
-                CheckOut
-              </Button>
+  return (
+    <>
+      {carts.length > 0 ? (
+        <>
+          <Typography
+            variant="h3"
+            gutterBottom
+            style={{ marginLeft: 50, marginTop: 20, padding: 10 }}
+          >
+            Cart
+          </Typography>
+          <script>if (carts.length === 0) return;</script>
+          <TableContainer
+            className="Cart-table"
+            style={{
+              marginTop: 20,
+              marginLeft: 50,
+              marginRight: 50,
+              padding: 50,
+              width: "auto",
+            }}
+            component={Paper}
+          >
+            <Table style={{ marginBottom: 20 }} aria-label="spanning table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" colSpan={3}>
+                    Details
+                  </TableCell>
+                  <TableCell align="right">Price</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Desc</TableCell>
+                  <TableCell align="right">Qty.</TableCell>
+                  <TableCell align="right">Unit</TableCell>
+                  <TableCell align="right">Sum</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {carts.map((cart) => {
+                  //logic
+                  return (
+                    <TableRow key={cart.title}>
+                      <TableCell>{cart.title}</TableCell>
+                      <TableCell align="right">{cart.quantity}</TableCell>
+                      <TableCell align="right">{cart.price}</TableCell>
+                      <TableCell align="right">
+                        {ccyFormat(priceRow(cart.quantity, cart.price))}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+
+                <TableRow>
+                  <TableCell rowSpan={3} />
+                  <TableCell colSpan={2}>Subtotal</TableCell>
+                  <TableCell align="right">
+                    {ccyFormat(invoiceSubtotal)}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Tax</TableCell>
+                  <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
+                    0
+                  )} %`}</TableCell>
+                  <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={2}>Total</TableCell>
+                  <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+            <Link
+              to="/order"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+              }}
+            >
+              <Stack spacing={4} direction="row">
+                <Button onClick={OpenOrderPlaced} variant="contained">
+                  CheckOut
+                </Button>
+              </Stack>
             </Link>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableContainer>
+        </>
+      ) : (
+        <div>
+          <Typography
+            variant="h3"
+            gutterBottom
+            style={{ marginLeft: 50, marginTop: 20, padding: 10 }}
+          >
+            Cart Is Empty
+          </Typography>
+          <Typography
+            variant="h5"
+            gutterBottom
+            style={{ marginLeft: 50, marginTop: 20, padding: 10 }}
+          >
+            Please add Items . Happy Shopping!
+          </Typography>
+        </div>
+      )}
+    </>
   );
 };
 export default Cart;
