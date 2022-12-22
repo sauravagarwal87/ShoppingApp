@@ -12,8 +12,8 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import "../styles/cart.css";
 
-const Cart = ({ carts, OpenOrderPlaced }) => {
-  console.log("CartPage", carts);
+const Cart = ({ carts, userIsLogin, OpenOrderPlaced }) => {
+  // console.log("CartPage", carts);
   // if (carts.length === 0) return;
   const TAX_RATE = 0.07;
 
@@ -24,6 +24,7 @@ const Cart = ({ carts, OpenOrderPlaced }) => {
   function priceRow(qty, unit) {
     return qty * unit;
   }
+  // const priceR = priceRow(qty, unit);
 
   // function createRow(desc, qty, unit) {
   //   const price = priceRow(qty, unit);
@@ -31,10 +32,12 @@ const Cart = ({ carts, OpenOrderPlaced }) => {
   // }
 
   function subtotal(carts) {
-    return carts.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+    return carts
+      .map((cart) => priceRow(cart.quantity, cart.price))
+      .reduce((sum, i) => sum + i, 0);
   }
 
-  //update cart vale
+  // update cart vale
   // const rows = [
   //   createRow("Paperclips (Box)", 100, 1.15),
   //   createRow("Paper (Case)", 10, 45.99),
@@ -120,21 +123,51 @@ const Cart = ({ carts, OpenOrderPlaced }) => {
                 </TableRow>
               </TableBody>
             </Table>
-            <Link
-              to="/order"
-              style={{
-                textDecoration: "none",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-              }}
-            >
-              <Stack spacing={4} direction="row">
-                <Button onClick={OpenOrderPlaced} variant="contained">
-                  CheckOut
-                </Button>
-              </Stack>
-            </Link>
+
+            {}
+            {userIsLogin ? (
+              <Link
+                to="/order"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Stack spacing={4} direction="row">
+                  <Button onClick={OpenOrderPlaced} variant="contained">
+                    CheckOut
+                  </Button>
+                </Stack>
+              </Link>
+            ) : (
+              <>
+                <p
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                  }}
+                  className=""
+                >
+                  Login first to do CheckOut
+                </p>
+                {/* <Link
+                  to="/Login"
+                  style={{
+                    textDecoration: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                  }}
+                >
+                  <Stack spacing={4} direction="row">
+                    <Button variant="contained">LogIn </Button>
+                  </Stack>
+                </Link> */}
+              </>
+            )}
           </TableContainer>
         </>
       ) : (

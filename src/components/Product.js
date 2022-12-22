@@ -4,7 +4,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
-//import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -87,8 +86,8 @@ const Product = ({
     <Box sx={{ flexGrow: 1 }}>
       <Grid
         container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 4, sm: 8, md: 12 }}
+        spacing={{ xs: 1, md: 3 }}
+        columns={{ xs: 4, sm: 12, md: 16 }}
       >
         <div className="product-display">
           {products.map((product) => {

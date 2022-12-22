@@ -1,19 +1,38 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Routes, Switch } from "react-router";
+import { Routes } from "react-router";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
 import Cart from "./components/Cart";
 import Description from "./components/Discription";
 import Header from "./components/Header";
 import Order from "./components/Order";
 import Product from "./components/Product";
-import ReactDOM from "react-dom/client";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import BreadCrumbs from "./components/BreadCrumbs";
 
 function App() {
   const [cart, setCart] = useState([]);
+
   const [Id, setId] = useState(0);
 
   const [orderCart, setorderCart] = useState([]);
+
+  const history = useNavigate();
+  const [userData, setuserData] = useState([]);
+  const [userLoginData, setuserLoginData] = useState({});
+  const [userIsLogin, setuserIsLogin] = useState();
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/users")
+      .then((res) => res.json())
+      .then((json) => {
+        setuserData(json);
+      });
+  }, []);
+  console.log(userData);
+
   // useEffect(() => {
   //   setorderCart(cart);
   // }, [cart]);
@@ -70,9 +89,47 @@ function App() {
     //console.log("Id", Id);
   };
 
+  //Login Condition
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    setuserLoginData({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  };
+
+  function IsLogin() {
+    const userEmail = userData.find(
+      (userInfo) => userInfo.email === userLoginData.email
+    );
+    console.log(userEmail);
+    const userPassword = userData.find(
+      (userInfo) => userInfo.password === userLoginData.password
+    );
+    console.log(userPassword);
+    if (userEmail && userPassword) {
+      setuserIsLogin(true);
+      alert("Success");
+      history("/");
+    } else {
+      setuserIsLogin(false);
+      alert("Wrong");
+    }
+  }
+  console.log(userIsLogin);
+
   return (
     <>
-      <Header carts={cart} />
+      {/* <Login path="/" /> */}
+      <Header
+        userLoginData={userLoginData}
+        userIsLogin={userIsLogin}
+        carts={cart}
+      />
+      <BreadCrumbs />
+
       <Routes>
         <Route
           path="/"
@@ -99,9 +156,20 @@ function App() {
         />
         <Route
           path="/Cart"
-          element={<Cart carts={cart} OpenOrderPlaced={OpenOrderPlaced} />}
+          element={
+            <Cart
+              carts={cart}
+              userIsLogin={userIsLogin}
+              OpenOrderPlaced={OpenOrderPlaced}
+            />
+          }
         />
         <Route path="/order" element={<Order carts={orderCart} />} />
+        <Route
+          path="/Login"
+          element={<Login IsLogin={IsLogin} handleSubmit={handleSubmit} />}
+        />
+        <Route path="/SignUp" element={<SignUp />} />
       </Routes>
     </>
   );
