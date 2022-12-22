@@ -8,6 +8,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
@@ -22,6 +23,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Header = (props) => {
+  console.log("in hader", props.userLoginData);
+
   return (
     // <div className="container">
     //   <div className="heading">
@@ -50,7 +53,7 @@ const Header = (props) => {
           <Link
             to="/"
             style={{
-              color: "Black",
+              color: "White",
               textDecoration: "none",
             }}
           >
@@ -64,7 +67,7 @@ const Header = (props) => {
                 display: { md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: ".3rem",
+                letterSpacing: ".2rem",
                 color: "inherit",
                 textDecoration: "none",
                 flexGrow: 1,
@@ -73,17 +76,40 @@ const Header = (props) => {
               Shopping App
             </Typography>
           </Link>
-          <Link to="/cart">
-            <IconButton aria-label="cart">
-              <StyledBadge
-                style={{ color: "Black" }}
-                badgeContent={props.carts.length}
-                color="secondary"
+          <div
+            style={{
+              display: "flex",
+              justifyontent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <Link
+              style={{
+                marginRight: 10,
+              }}
+              to="/cart"
+            >
+              <IconButton aria-label="cart">
+                <StyledBadge
+                  style={{ color: "White" }}
+                  badgeContent={props.carts.length}
+                  color="secondary"
+                >
+                  <ShoppingCartIcon />
+                </StyledBadge>
+              </IconButton>
+            </Link>
+            {props.userIsLogin ? (
+              <p>{props.userLoginData.email}</p>
+            ) : (
+              <Link
+                style={{ color: "White", textDecoration: "none" }}
+                to="/Login"
               >
-                <ShoppingCartIcon />
-              </StyledBadge>
-            </IconButton>
-          </Link>
+                <Button color="inherit">Login</Button>
+              </Link>
+            )}
+          </div>
         </Toolbar>
       </AppBar>
     </Box>
