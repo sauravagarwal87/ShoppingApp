@@ -16,6 +16,7 @@ We also have a BreadCrumbs with the help of this we can go to different page.
 # Deployment part(Using AWS S3 Bucket) :-
 Create a public bucket.
 Upload your project in the bucket.
+http://shopping-appp.s3-website-ap-northeast-1.amazonaws.com/
 
 
 
